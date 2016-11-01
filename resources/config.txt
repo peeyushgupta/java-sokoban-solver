@@ -1,0 +1,5 @@
+size: 3 5
+nWallSquares: 12 1 1 1 2 1 3 2 1 2 3 3 1 3 3 4 1 4 3 5 1 5 2 5 3
+nBoxes: 1 3 2
+nStorageLocations: 1 4 2
+player: 2 2
