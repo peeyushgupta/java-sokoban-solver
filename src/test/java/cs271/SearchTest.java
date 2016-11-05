@@ -13,31 +13,70 @@ public class SearchTest {
 	@Test
 	public void testForNoSolutions() {
 		Graph<String> graph = new RomaniaGraph();
-		DepthFirst<String> dfs = new DepthFirst<>();
-		Node<String> goal = dfs.search(graph, graph.get("NewYork"));
+		Search<String> search = new Search<>();
+		Node<String> goal = search.depthFirst(graph, graph.get("NewYork"));
 		List<String> path = graph.path(goal);
 
 		assertThat(path, equalTo(Arrays.asList()));
 	}
 
 	@Test
-	public void testForPathOfOne() {
+	public void depthFirstFullTest() {
 		Graph<String> graph = new RomaniaGraph();
-		DepthFirst<String> dfs = new DepthFirst<>();
-		Node<String> goal = dfs.search(graph, graph.get("Bucharest"));
+		Search<String> search = new Search<>();
+		Node<String> goal = search.depthFirst(graph, graph.get("Arad"));
 		List<String> path = graph.path(goal);
 
-		assertThat(path, equalTo(Arrays.asList("Bucharest")));
+		assertThat(path, equalTo(Arrays.asList("Arad", "Timisoara", "Lugoj", "Mehadia", "Dobreta", "Craiova", "RimnicuVilcea", "Sibiu", "Fagaras", "Bucharest")));
 	}
-
+		
 	@Test
-	public void testForPathOfTwo() {
+	public void testForPathOfTwoBreadthFirst() {
 		Graph<String> graph = new RomaniaGraph();
-		DepthFirst<String> dfs = new DepthFirst<>();
-		Node<String> goal = dfs.search(graph, graph.get("Fagaras"));
+		Search<String> search = new Search<>();
+		Node<String> goal = search.breadthFirst(graph, graph.get("Fagaras"));
 		List<String> path = graph.path(goal);
 
 		assertThat(path, equalTo(Arrays.asList("Fagaras", "Bucharest")));
 	}
 
+	@Test
+	public void breadthFirstFullTest() {
+		Graph<String> graph = new RomaniaGraph();
+		Search<String> search = new Search<>();
+		Node<String> goal = search.breadthFirst(graph, graph.get("Arad"));
+		List<String> path = graph.path(goal);
+
+		assertThat(path, equalTo(Arrays.asList("Arad", "Sibiu", "Fagaras", "Bucharest")));
+	}
+	
+	@Test
+	public void uniformCostFullTest() {
+		Graph<String> graph = new RomaniaGraph();
+		Search<String> search = new Search<>();
+		Node<String> goal = search.uniformCost(graph, graph.get("Arad"));
+		List<String> path = graph.path(goal);
+		
+		assertThat(path, equalTo(Arrays.asList("Arad", "Sibiu", "RimnicuVilcea", "Pitesti", "Bucharest")));		
+	}
+	
+	@Test
+	public void greedyBestFirstFullTest() {
+		Graph<String> graph = new RomaniaGraph();
+		Search<String> search = new Search<>();
+		Node<String> goal = search.greedyBestFirst(graph, graph.get("Arad"));
+		List<String> path = graph.path(goal);
+				
+		assertThat(path, equalTo(Arrays.asList("Arad", "Sibiu", "Fagaras", "Bucharest")));
+	}
+	
+	@Test
+	public void aStarFullTest() {
+		Graph<String> graph = new RomaniaGraph();
+		Search<String> search = new Search<>();
+		Node<String> goal = search.aStar(graph, graph.get("Arad"));
+		List<String> path = graph.path(goal);
+						
+		assertThat(path, equalTo(Arrays.asList("Arad", "Sibiu", "RimnicuVilcea", "Pitesti", "Bucharest")));
+	}
 }
