@@ -1,95 +1,53 @@
 package cs271.sokoban;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /*
  * Stores items that will change
  */
 public class GameState {
-	Point playerLocation;
-	Set<Point> boxLocations;
+    Point playerLocation;
+    Set<Point> boxLocations;
 
-	public GameState() {
-		playerLocation = null;
-		boxLocations = new HashSet<>();
-	}
+    public GameState(Point playerLocation, Set<Point> boxLocations) {
+        this.playerLocation = playerLocation;
+        this.boxLocations = boxLocations;
+    }
 
-	public Point getPlayerLocation() {
-		return this.playerLocation;
-	}
+    public Point getPlayerLocation() {
+        return this.playerLocation;
+    }
 
-	public Set<Point> getBoxLocations() {
-		return this.boxLocations;
-	}
+    public boolean isBox(Point p) {
+        return boxLocations.contains(p);
+    }
 
-	public boolean isBox(Point p) {
-		return boxLocations.contains(p);
-	}
+    public boolean isPlayer(Point p) {
+        return playerLocation.equals(p);
+    }
 
-	public boolean isPlayer(Point p) {
-		return playerLocation.equals(p);
-	}
+    public GameState move(Game game, char direction) {
+        Point playerDestination = playerLocation.move(direction);
+        Set<Point> boxesDestination = new HashSet<>(boxLocations);
 
-	// TODO
-	// put game object as inptut
-//	public void move(Game game, char direction) {
-//		Point playerDestination = playerLocation.move(direction);
-//
-//		// if box is in the way, update box
-//		if(boxLocations.contains(playerDestination)) {
-//			Point boxDestination = playerDestination.move(direction);
-//
-//			// if there is no wall, update box location AND player location
-//			if(game.getWallLocations().contains(boxDestination)) {
-//
-//				// update box
-//			}
-//		} else {
-//			// if there is no wall, then update player location
-//			playerLocation = playerDestination;
-//		}
-//	}
+        // if box is in the way, move the box too
+        if (isBox(playerDestination)) {
+            boxesDestination.remove(playerDestination);
+            boxesDestination.add(playerDestination.move(direction));
+        }
 
-	// read config.txt and store values in class variables
-	public void loadFromFile(File configFile) {
-		try (BufferedReader br = new BufferedReader(new FileReader(configFile))) {
-			for (String line; (line = br.readLine()) != null;) {
-				String[] parts = line.split(": ");
-				String[] numbers = parts[1].split(" "); // why would i call it something so undescriptive???
+        return new GameState(playerDestination, boxesDestination);
+    }
 
-				switch(parts[0]) {
-					case "nBoxes": {
-						// remember that the first number is for the number of boxes
-						if(numbers.length % 2 == 0) {
-							throw new IllegalArgumentException("[ERROR]: input file has incorrect box locations");
-						}
+    @Override
+    public String toString() {
+        String boxes = boxLocations.stream()
+                .map((point) -> point.getX() + " " + point.getY() + " " + "Box")
+                .collect(Collectors.joining("\n"));
+        return boxes + "\n" + playerLocation.getX() + " " + playerLocation.getY() + " " + "Player";
 
-						for(int i = 1; i < numbers.length; i+=2) {
-							Point box = new Point(Integer.parseInt(numbers[i], 10), Integer.parseInt(numbers[i+1]));
-							boxLocations.add(box);
-						}
-						break;
-					}
-					case "player": {
-						if(numbers.length % 2 != 0) {
-							throw new IllegalArgumentException("[ERROR]: input file has incorrect player location");
-						}
-
-						playerLocation = new Point(Integer.parseInt(numbers[0], 10), Integer.parseInt(numbers[1], 10));
-						break;
-					}
-					default:
-						break;
-				}
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+    }
 
 }
