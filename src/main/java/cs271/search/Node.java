@@ -1,4 +1,4 @@
-package cs271;
+package cs271.search;
 
 public class Node<T> {
 

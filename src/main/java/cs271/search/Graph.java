@@ -1,11 +1,15 @@
-package cs271;
+package cs271.search;
 
 import java.util.LinkedList;
 import java.util.List;
 
 public abstract class Graph<T> {
 
-    abstract Node<T> get(T state);
+    abstract public Node<T> get(T state);
+
+    abstract public boolean isGoal(Node<T> node);
+
+    abstract public List<Node<T>> children(Node<T> current);
 
     public List<String> statePath(Node<String> goal) {
         LinkedList<String> path = new LinkedList<>();
@@ -30,9 +34,5 @@ public abstract class Graph<T> {
 
         return path;
     }
-
-    abstract boolean isGoal(Node<T> node);
-
-    abstract List<Node<T>> children(Node<T> current);
 
 }

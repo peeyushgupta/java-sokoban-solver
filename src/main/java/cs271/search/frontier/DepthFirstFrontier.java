@@ -1,8 +1,8 @@
-package cs271.frontier;
+package cs271.search.frontier;
 
 import java.util.Stack;
 
-import cs271.Node;
+import cs271.search.Node;
 
 public class DepthFirstFrontier<T> implements Frontier<T> {
 

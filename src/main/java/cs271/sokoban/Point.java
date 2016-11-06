@@ -1,4 +1,4 @@
-package Test;
+package cs271.sokoban;
 
 public class Point {
 	int x;

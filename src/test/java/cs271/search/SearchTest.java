@@ -1,4 +1,4 @@
-package cs271;
+package cs271.search;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -7,6 +7,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Test;
+
+import cs271.romania.RomaniaGraph;
 
 public class SearchTest {
 

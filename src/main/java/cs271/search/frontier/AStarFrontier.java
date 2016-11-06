@@ -1,20 +1,23 @@
-package cs271.frontier;
+package cs271.search.frontier;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-import cs271.Node;
+import cs271.search.Node;
 
-public class GreedyBestFirstFrontier<T> implements Frontier<T> {
+public class AStarFrontier<T> implements Frontier<T> {
 
     PriorityQueue<Node<T>> frontier;
 
-    public GreedyBestFirstFrontier() {
+    public AStarFrontier() {
         Comparator<Node<T>> comparator = new Comparator<Node<T>>() {
             @Override
             public int compare(Node<T> x, Node<T> y) {
-                if (x.getHValue() > y.getHValue()) return 1;
-                else if (x.getHValue() < y.getHValue()) return -1;
+                double xFCost = x.getGValue() + x.getHValue();
+                double yFCost = y.getGValue() + y.getHValue();
+
+                if (xFCost > yFCost) return 1;
+                else if (xFCost < yFCost) return -1;
                 return 0;
             }
         };
@@ -36,5 +39,4 @@ public class GreedyBestFirstFrontier<T> implements Frontier<T> {
     public void add(Node<T> child) {
         frontier.add(child);
     }
-
 }

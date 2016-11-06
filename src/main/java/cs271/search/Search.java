@@ -1,14 +1,9 @@
-package cs271;
+package cs271.search;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import cs271.frontier.AStarFrontier;
-import cs271.frontier.BreadthFirstFrontier;
-import cs271.frontier.DepthFirstFrontier;
-import cs271.frontier.Frontier;
-import cs271.frontier.GreedyBestFirstFrontier;
-import cs271.frontier.UniformCostFrontier;
+import cs271.search.frontier.*;
 
 public class Search<T> {
 

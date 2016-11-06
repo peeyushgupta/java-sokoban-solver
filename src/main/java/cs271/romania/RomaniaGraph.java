@@ -1,9 +1,13 @@
-package cs271;
+package cs271.romania;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+
+import cs271.search.Graph;
+import cs271.search.Node;
+
 import java.util.HashMap;
 
 public class RomaniaGraph extends Graph<String> {

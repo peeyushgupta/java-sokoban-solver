@@ -1,9 +1,9 @@
-package cs271.frontier;
+package cs271.search.frontier;
 
 import java.util.Comparator;
 import java.util.PriorityQueue;
 
-import cs271.Node;
+import cs271.search.Node;
 
 public class UniformCostFrontier<T> implements Frontier<T> {
 
