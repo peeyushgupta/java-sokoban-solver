@@ -1,16 +1,38 @@
 package cs271;
 
+import java.util.LinkedList;
 import java.util.List;
 
-public interface Graph<T> {
+public abstract class Graph<T> {
 
-	Node<T> get(T state);
+    abstract Node<T> get(T state);
 
-	List<T> path(Node<T> goal);
+    public List<String> statePath(Node<String> goal) {
+        LinkedList<String> path = new LinkedList<>();
 
-	boolean isGoal(Node<T> node);
+        Node<String> temp = goal;
+        while (temp != null) {
+            path.push(temp.getState());
+            temp = temp.getParent();
+        }
 
-	List<Node<T>> children(Node<T> current);
-	
+        return path;
+    }
+
+    public List<String> operationPath(Node<String> goal) {
+        LinkedList<String> path = new LinkedList<>();
+
+        Node<String> temp = goal;
+        while (temp != null) {
+            path.push(temp.getOperation());
+            temp = temp.getParent();
+        }
+
+        return path;
+    }
+
+    abstract boolean isGoal(Node<T> node);
+
+    abstract List<Node<T>> children(Node<T> current);
 
 }
