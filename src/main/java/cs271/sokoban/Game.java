@@ -19,6 +19,10 @@ public class Game {
         this.storageLocations = storageLocations;
     }
 
+    public Set<Point> getStorageLocations() {
+        return storageLocations;
+    }
+
     public int[] getDimensions() {
         return this.dimensions;
     }

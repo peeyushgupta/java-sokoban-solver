@@ -20,6 +20,10 @@ public class GameState {
         return this.playerLocation;
     }
 
+    public Set<Point> getBoxLocations() {
+        return boxLocations;
+    }
+
     public boolean isBox(Point p) {
         return boxLocations.contains(p);
     }
@@ -39,6 +43,34 @@ public class GameState {
         }
 
         return new GameState(playerDestination, boxesDestination);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        GameState state = (GameState) obj;
+        if (playerLocation.equals(state.getPlayerLocation()) &&
+                state.getBoxLocations().size() == boxLocations.size()) {
+            for (Point point : state.getBoxLocations()) {
+                if (!boxLocations.contains(point))
+                    return false;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int hashX = 0;
+        int hashY = 0;
+        for (Point point : boxLocations) {
+            hashX += point.getX();
+            hashY += point.getY();
+        }
+        hashX += playerLocation.getX();
+        hashY += playerLocation.getY();
+
+        return 31 * hashX + 37 * hashY;
     }
 
     @Override

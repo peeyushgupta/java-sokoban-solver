@@ -1,14 +1,17 @@
 package cs271.search;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
+import cs271.romania.RomaniaGraph;
+import cs271.sokoban.GameState;
+import cs271.sokoban.Initializer;
+import cs271.sokoban.SokobanGraph;
+import org.junit.Test;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Test;
-
-import cs271.romania.RomaniaGraph;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 public class SearchTest {
 
@@ -71,5 +74,35 @@ public class SearchTest {
         List<String> path = graph.statePath(goal);
 
         assertThat(path, equalTo(Arrays.asList("Arad", "Sibiu", "RimnicuVilcea", "Pitesti", "Bucharest")));
+    }
+
+
+    @Test
+    public void sokobanDFS() {
+        File file = new File("resources/config.txt");
+        Initializer init = new Initializer(file);
+        SokobanGraph graph = new SokobanGraph(init.getGame());
+        Search<GameState> search = new Search<>();
+
+        GameState startState = init.getGameState();
+        Node<GameState> goal = search.depthFirst(graph, graph.get(startState));
+        List<GameState> path = graph.path(goal);
+
+        //5 3 12 0 0 0 1 0 2 1 0 1 2 2 0 2 2 3 0 3 2 4 0 4 1 4 2 1 2 1 1 3 1 1 1
+        assertThat(graph.getMovesFromPath(path), equalTo(Arrays.asList('R')));
+    }
+
+    @Test
+    public void sokobanBFS() {
+        File file = new File("resources/input3.txt");
+        Initializer init = new Initializer(file);
+        SokobanGraph graph = new SokobanGraph(init.getGame());
+        Search<GameState> search = new Search<>();
+
+        GameState startState = init.getGameState();
+        Node<GameState> goal = search.breadthFirst(graph, graph.get(startState));
+        List<GameState> path = graph.path(goal);
+
+        assertThat(graph.getMovesFromPath(path), equalTo(Arrays.asList('R', 'D', 'R', 'D', 'D', 'D', 'R')));
     }
 }
